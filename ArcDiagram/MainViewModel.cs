@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiagramTest
+namespace ArcDiagram
 {
     class MainViewModel : Observable
     {
@@ -18,37 +18,34 @@ namespace DiagramTest
         {
             // Create the plot model
             var tmp = new PlotModel("Simple Arc Diagram Example", "using OxyPlot");
-            
-            // Draw Arcs
-            drawSimpleArcLine(tmp, 4, 2);
-            drawArc(tmp, 10,5,3);
-            drawArc(tmp, 8, 1, 0.5);
-            drawArc(tmp, 6, 1, 0.5);
+            tmp.PlotAreaBorderColor = OxyColors.Transparent;
  
             // Axes are created automatically if they are not defined
-            var xaxis = new CategoryAxis(AxisPosition.Bottom, "Names", new String[] { "Yannick", "Sabrina", "Tine", "Hallo" });
+            var xaxis = new LinearAxis(AxisPosition.Bottom);
             xaxis.Angle = -90;
-            xaxis.Minimum = 0;
-            //xaxis.Maximum = 10;
             xaxis.MaximumPadding = 0;
             xaxis.MinimumPadding = 0;
+            xaxis.TickStyle = TickStyle.None;
+            xaxis.IsAxisVisible = false;
 
             var yaxis = new LinearAxis();
             yaxis.IsAxisVisible = false;
             yaxis.Position = AxisPosition.Left;
             yaxis.Minimum = 0;
-           
+            yaxis.AxislineColor = OxyColors.Transparent;           
 
             tmp.Axes.Add(xaxis);
             tmp.Axes.Add(yaxis);
+
             // Set the Model property, the INotifyPropertyChanged event will make the WPF Plot control update its content
             Model = tmp;
         }
 
-        public void drawArc(PlotModel pm, double center, double outerR, double innerR)
+        public void drawArc(double center, double outerR, double innerR)
         {
             var areaSeries = new AreaSeries();
             var data = new Collection<ArcData>();
+            areaSeries.Tag = outerR - innerR;
 
             for (double i = 0; i <= Math.PI; i += 0.001)
             {             
@@ -70,14 +67,14 @@ namespace DiagramTest
             areaSeries.Fill = OxyColor.FromAColor(80, OxyColors.LightBlue);
             areaSeries.StrokeThickness = 0;
 
-            pm.Series.Add(areaSeries);
+            this.model.Series.Add(areaSeries);
         }
 
-        public void drawSimpleArcLine(PlotModel pm, double center, double radius)
+        public void drawSimpleArcLine(double center, double radius)
         {
-            var funcSeries = new FunctionSeries(t => center + radius * Math.Cos(t), t => radius * Math.Sin(t), 0, Math.PI, 0.001);
+            var funcSeries = new FunctionSeries(t => center + radius * Math.Cos(t), t => radius * Math.Sin(t), 0, Math.PI, 0.01);
             funcSeries.Color = OxyColor.FromAColor(80, OxyColors.LightBlue);
-            pm.Series.Add(funcSeries);
+            this.model.Series.Add(funcSeries);
         }
 
         public PlotModel Model

@@ -29,7 +29,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace DiagramTest
+namespace ArcDiagram
 {
     public class Observable : INotifyPropertyChanged
     {
