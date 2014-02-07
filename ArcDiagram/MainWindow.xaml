@@ -12,29 +12,39 @@
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" MinWidth="200" />
+            <ColumnDefinition Width="auto" MinWidth="220" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <oxy:Plot Grid.Column="2" Grid.Row="0" x:Name="TestPlot"  Model="{Binding Model}" BorderBrush="Transparent" Title="{Binding Text, ElementName=txtTitle}" Subtitle="{Binding Text, ElementName=txtSubtitle}" />
+        <oxy:Plot Grid.Column="2" Grid.Row="0" x:Name="TestPlot"  Model="{Binding Model}" BorderBrush="Transparent"
+                  Title="{Binding Text, ElementName=txtTitle}" Subtitle="{Binding Text, ElementName=txtSubtitle}"
+                  SubtitleFontSize="{Binding Text, ElementName=txtSubtitleFontSize}" TitleFontSize="{Binding Text, ElementName=txtTitleFontSize}"
+                  TitlePadding="{Binding Text, ElementName=txtTitlePadding}" />
         <Button Grid.Row="1" Grid.Column="2" Content="Run" HorizontalAlignment="Right" Width="75" Click="Button_Click" Margin="0,67,295,0" Height="22" VerticalAlignment="Top"/>
         <Button x:Name="btnReport" Grid.Row="1" Grid.Column="2" Content="Report" Margin="10,67,0,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Click="btnReport_Click" />
         <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5" ResizeDirection="Columns" ShowsPreview="True"/>
-        <Border BorderBrush="LightGray" BorderThickness="0,5,0,0" Grid.Column="2" Grid.Row="1" Margin="0,0,10,0">
+        <Border BorderBrush="LightGray" BorderThickness="0,1,0,0" Grid.Column="2" Grid.Row="1" Margin="0,0,10,0">
             <Slider x:Name="sldrMinArcLength" Margin="0,33,0,38" Minimum="0" Value="0" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" SmallChange="1" AutoToolTipPlacement="TopLeft" IsEnabled="False" ValueChanged="sldrMinArcLength_ValueChanged" HorizontalAlignment="Right" Width="277"/>
         </Border>
         <TextBox Name="txtInput" Grid.Column="2" Height="23" Margin="10,39,295,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="txtInput_KeyDown"/>
-        <Grid Grid.Column="0" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Settings" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
-            <Label Content="Title" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtTitle" Height="22" Margin="10,69,10,0" TextWrapping="Wrap" Text="{Binding Model.Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-            <Label Content="Subtitle" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtSubtitle" Height="22" Margin="10,122,10,0" TextWrapping="Wrap" Text="{Binding Model.Subtitle, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-        </Grid>
+        <StackPanel VerticalAlignment="Top" Height="665" Margin="10,10,10,0" Grid.RowSpan="2">
+            <Label Grid.Row="0" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+            <Label Content="Title" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+            <TextBox x:Name="txtTitle" Height="22"  TextWrapping="Wrap" Text="{Binding Model.Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Title Fontsize" FontWeight="Bold"/>
+                <TextBox Name="txtTitleFontSize" Margin="80,0,0,0" Width="35" Height="22" Text="{Binding Model.TitleFontSize, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}" TextAlignment="Right"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Title Padding" FontWeight="Bold"/>
+                <TextBox x:Name="txtTitlePadding" Margin="80,0,0,0" Height="22" Width="35" TextWrapping="Wrap" TextAlignment="Right" Text="{Binding Model.TitlePadding, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" />
+            </StackPanel>
+            <Label Content="Subtitle" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+            <TextBox x:Name="txtSubtitle" Height="22" TextWrapping="Wrap" Text="{Binding Model.Subtitle, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Title Fontsize" FontWeight="Bold"/>
+                <TextBox Name="txtSubtitleFontSize" Margin="80,0,0,0" Width="35" Height="22" Text="{Binding Model.SubtitleFontSize, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}" TextAlignment="Right"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

@@ -30,7 +30,8 @@ namespace ArcDiagram
         {
             InitializeComponent();
             this.DataContext = mvm;
-            
+            this.txtInput.Text = "abcd111110000011111abcd";
+            DrawAllArcs();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

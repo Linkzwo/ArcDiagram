@@ -26,7 +26,7 @@ namespace ArcDiagram
             xaxis.MaximumPadding = 0;
             xaxis.MinimumPadding = 0;
             xaxis.TickStyle = TickStyle.None;
-            xaxis.IsAxisVisible = false;
+            xaxis.IsAxisVisible = true;
 
             var yaxis = new LinearAxis();
             yaxis.IsAxisVisible = false;
