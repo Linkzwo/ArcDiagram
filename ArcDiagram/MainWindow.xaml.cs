@@ -110,6 +110,7 @@ namespace ArcDiagram
 
             List<string> returnList = new List<string>();
 
+            //.get all possible combinations of a string
             for (int i = 0; i < s.Length; i++)
             {
                 for (int j = 1; j != s.Length - i + 1; j++)
@@ -139,6 +140,9 @@ namespace ArcDiagram
 
         private void EnterArc(string s, List<int> lst)
         {
+            
+            var overlappingArcs = true; //true if you want to have overlapping arcs
+
             var q = new Queue<int>(lst);
             double center, innerR, outerR;
             int first = q.Dequeue();
@@ -149,10 +153,22 @@ namespace ArcDiagram
                 if((q.Peek() - (first + s.Length - 1)) != 1){                    
                     innerR = center - (first + s.Length - 1) ;
                     outerR = center - (first + s.Length - 1) + s.Length - 1;
-                    if (s.Length == 1) innerR = outerR - 0.5;
+                    if (s.Length == 1)
+                    {
+                        innerR = outerR - 0.5;
+                        if (overlappingArcs)outerR += 0.125;
+                        if (overlappingArcs) innerR += 0.125;
+                    }
+                    else
+                    {
+                        if (overlappingArcs) outerR += 0.125;
+                        if (overlappingArcs) innerR -= 0.125;
+                    }
                 }else {
                     innerR = 0.25;
                     outerR = 0.5;
+                    if (overlappingArcs) outerR += 0.125;
+                    if (overlappingArcs) innerR += 0.125;
                 }
                 
                 mvm.drawArc(center, outerR , innerR);
