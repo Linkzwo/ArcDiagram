@@ -1,6 +1,7 @@
 ﻿using OxyPlot;
 using OxyPlot.Axes;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -176,8 +177,17 @@ namespace ArcDiagram
 
         private void btnReport_Click(object sender, RoutedEventArgs e)
         {
-           //OxyPlot.Reporting.Report report =  this.mvm.Model.CreateReport();
+            var sfd = new Microsoft.Win32.SaveFileDialog();
+            sfd.DefaultExt = ".pdf";
+            sfd.Filter = "Portable Document File (*.pdf)|*.pdf";
 
+            if (sfd.ShowDialog() == true)
+            {
+                using (var stream = File.Create(sfd.FileName))
+                {
+                    OxyPlot.Pdf.PdfExporter.Export(this.mvm.Model, stream, 600, 400);
+                }
+            }
         }
 
     }
