@@ -19,7 +19,25 @@
         <oxy:Plot Grid.Column="2" Grid.Row="0" x:Name="TestPlot"  Model="{Binding Model}" BorderBrush="Transparent"
                   Title="{Binding Text, ElementName=txtTitle}" Subtitle="{Binding Text, ElementName=txtSubtitle}"
                   SubtitleFontSize="{Binding Text, ElementName=txtSubtitleFontSize}" TitleFontSize="{Binding Text, ElementName=txtTitleFontSize}"
-                  TitlePadding="{Binding Text, ElementName=txtTitlePadding}" />
+                  TitlePadding="{Binding Text, ElementName=txtTitlePadding}">
+            <oxy:Plot.DefaultTrackerTemplate>
+                <ControlTemplate>
+                    <oxy:TrackerControl Position="{Binding Position}" LineExtents="{Binding Model.PlotArea}" CornerRadius="8"
+                                        BorderEdgeMode="Unspecified" ShowPointer="False" VerticalLineVisibility="Hidden"
+                                        HorizontalLineVisibility="Hidden">
+                        <oxy:TrackerControl.Background>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Color="#f0e0e0ff" />
+                                <GradientStop Offset="1" Color="#f0ffffff" />
+                            </LinearGradientBrush>
+                        </oxy:TrackerControl.Background>
+                        <oxy:TrackerControl.Content>                            
+                            <TextBlock Text="{Binding Series.Title}" Margin="8"/>
+                        </oxy:TrackerControl.Content>
+                    </oxy:TrackerControl>
+                </ControlTemplate>
+            </oxy:Plot.DefaultTrackerTemplate>
+        </oxy:Plot>
         <Button Grid.Row="1" Grid.Column="2" Content="Run" HorizontalAlignment="Right" Width="75" Click="Button_Click" Margin="0,67,295,0" Height="22" VerticalAlignment="Top"/>
         <Button x:Name="btnReport" Grid.Row="1" Grid.Column="2" Content="Report" Margin="10,67,0,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Click="btnReport_Click" />
         <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5" ResizeDirection="Columns" ShowsPreview="True"/>

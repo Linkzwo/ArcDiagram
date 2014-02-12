@@ -30,7 +30,7 @@ namespace ArcDiagram
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = mvm;
+            this.DataContext = mvm; 
             this.txtInput.Text = "abcd111110000011111abcd";
             DrawAllArcs();
         }
@@ -83,14 +83,15 @@ namespace ArcDiagram
 
             if (!sldrMinArcLength.IsEnabled) sldrMinArcLength.IsEnabled = true;
             sldrMinArcLength.Value = 0;
+            mvm.Model.ResetAllAxes();
             mvm.Model.RefreshPlot(true);
-
+            mvm.Model.PanAllAxes(0, 0);
         }
 
         private List<RepetitionArea> FindRepetitionAreas(string s)
         {
             List<RepetitionArea> reps = new List<RepetitionArea>();
-            Regex r = new Regex(@"(.+?)\1+");
+            Regex r = new Regex(@"(.+?)\1+"); //(.+?)\1+
 
             foreach (Match item in r.Matches(s))
             {
@@ -108,7 +109,6 @@ namespace ArcDiagram
 
         private List<string> getDuplicates(string s)
         {
-
             List<string> returnList = new List<string>();
 
             //.get all possible combinations of a string
@@ -172,7 +172,7 @@ namespace ArcDiagram
                     if (overlappingArcs) innerR += 0.125;
                 }
                 
-                mvm.drawArc(center, outerR , innerR);
+                mvm.drawArc(center, outerR , innerR, s);
                 first = q.Dequeue();
             }
         }

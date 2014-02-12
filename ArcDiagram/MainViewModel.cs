@@ -19,32 +19,34 @@ namespace ArcDiagram
             // Create the plot model
             var tmp = new PlotModel("Simple Arc Diagram Example", "using OxyPlot");
             tmp.PlotAreaBorderColor = OxyColors.Transparent;
- 
+            tmp.IsLegendVisible = false;
+
             // Axes are created automatically if they are not defined
             var xaxis = new LinearAxis(AxisPosition.Bottom);
-            xaxis.Angle = -90;
-            xaxis.MaximumPadding = 0;
-            xaxis.MinimumPadding = 0;
             xaxis.TickStyle = TickStyle.None;
-            xaxis.IsAxisVisible = true;
+            xaxis.IsAxisVisible = false;
+            xaxis.MinimumRange = 1;
 
             var yaxis = new LinearAxis();
             yaxis.IsAxisVisible = false;
             yaxis.Position = AxisPosition.Left;
-            yaxis.Minimum = 0;
+            yaxis.TickStyle = TickStyle.None;
+            yaxis.MinimumRange = 1;
+            //yaxis.IsPanEnabled = false;
             yaxis.AxislineColor = OxyColors.Transparent;           
 
             tmp.Axes.Add(xaxis);
             tmp.Axes.Add(yaxis);
-
+            
             // Set the Model property, the INotifyPropertyChanged event will make the WPF Plot control update its content
             Model = tmp;
         }
 
-        public void drawArc(double center, double outerR, double innerR)
+        public void drawArc(double center, double outerR, double innerR, string title)
         {
             var areaSeries = new AreaSeries();
             var data = new Collection<ArcData>();
+            areaSeries.Title = title;
             areaSeries.Tag = outerR - innerR;
 
             for (double i = 0; i <= Math.PI; i += 0.001)
