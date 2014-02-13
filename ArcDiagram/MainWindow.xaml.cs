@@ -201,7 +201,7 @@ namespace ArcDiagram
             {
                 using (var stream = File.Create(sfd.FileName))
                 {
-                    OxyPlot.Pdf.PdfExporter.Export(this.mvm.Model, stream, 600, 400);
+                    OxyPlot.Pdf.PdfExporter.Export(this.mvm.Model, stream, 800, 600);
                 }
             }
         }
