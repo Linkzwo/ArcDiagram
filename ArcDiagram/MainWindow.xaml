@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:oxy="http://oxyplot.codeplex.com"
         xmlns:ArcDiagram="clr-namespace:ArcDiagram"
-        Title="MainWindow" Height="800" Width="1280" Icon="Arc_icon.png">
-
-
+        Title="Arc Diagrams - using OxyPlot" Height="800" Width="1280" Icon="Arc_icon.png" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -20,6 +18,11 @@
                   Title="{Binding Text, ElementName=txtTitle}" Subtitle="{Binding Text, ElementName=txtSubtitle}"
                   SubtitleFontSize="{Binding Text, ElementName=txtSubtitleFontSize}" TitleFontSize="{Binding Text, ElementName=txtTitleFontSize}"
                   TitlePadding="{Binding Text, ElementName=txtTitlePadding}">
+            <oxy:Plot.Axes>
+                <oxy:LinearAxis Position="Left" IsAxisVisible="{Binding IsChecked, ElementName=ckbYVisibility}"
+                                MinimumRange="{Binding Value, ElementName=sldrYminRange}"/>
+                <oxy:CategoryAxis Position="Bottom" IsAxisVisible="{Binding IsChecked, ElementName=ckbXVisibility}" />
+            </oxy:Plot.Axes>
             <oxy:Plot.DefaultTrackerTemplate>
                 <ControlTemplate>
                     <oxy:TrackerControl Position="{Binding Position}" LineExtents="{Binding Model.PlotArea}" CornerRadius="8"
@@ -31,20 +34,20 @@
                                 <GradientStop Offset="1" Color="#f0ffffff" />
                             </LinearGradientBrush>
                         </oxy:TrackerControl.Background>
-                        <oxy:TrackerControl.Content>                            
+                        <oxy:TrackerControl.Content>
                             <TextBlock Text="{Binding Series.Title}" Margin="8"/>
                         </oxy:TrackerControl.Content>
                     </oxy:TrackerControl>
                 </ControlTemplate>
             </oxy:Plot.DefaultTrackerTemplate>
         </oxy:Plot>
-        <Button Grid.Row="1" Grid.Column="2" Content="Run" HorizontalAlignment="Right" Width="75" Click="Button_Click" Margin="0,67,295,0" Height="22" VerticalAlignment="Top"/>
-        <Button x:Name="btnReport" Grid.Row="1" Grid.Column="2" Content="Report" Margin="10,67,0,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Click="btnReport_Click" />
+        <Button Grid.Row="1" Grid.Column="2" Content="Run" HorizontalAlignment="Right" Width="75" Click="Button_Click" Margin="0,39,310,0" Height="22" VerticalAlignment="Top" Background="{x:Null}" FontWeight="Bold" BorderBrush="#FF060606" BorderThickness="0"/>
+        <Button Name="btnFromFile" Grid.Row="1" Grid.Column="2" Content="..." HorizontalAlignment="Right" Width="75"  Margin="0,66,310,0" Height="22" VerticalAlignment="Top" Background="{x:Null}" FontWeight="Bold" BorderBrush="#FF060606" BorderThickness="0" Click="btnFromFile_Click"/>
         <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="5" ResizeDirection="Columns" ShowsPreview="True"/>
         <Border BorderBrush="LightGray" BorderThickness="0,1,0,0" Grid.Column="2" Grid.Row="1" Margin="0,0,10,0">
             <Slider x:Name="sldrMinArcLength" Margin="0,33,0,38" Minimum="0" Value="0" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight" SmallChange="1" AutoToolTipPlacement="TopLeft" IsEnabled="False" ValueChanged="sldrMinArcLength_ValueChanged" HorizontalAlignment="Right" Width="277"/>
         </Border>
-        <TextBox Name="txtInput" Grid.Column="2" Height="23" Margin="10,39,295,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="txtInput_KeyDown"/>
+        <TextBox Name="txtInput" Grid.Column="2" Height="Auto" Margin="10,39,390,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top"  KeyDown="txtInput_KeyDown"/>
         <StackPanel VerticalAlignment="Top" Height="665" Margin="10,10,10,0" Grid.RowSpan="2">
             <Label Grid.Row="0" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
             <Label Content="Title" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
@@ -61,7 +64,23 @@
             <TextBox x:Name="txtSubtitle" Height="22" TextWrapping="Wrap" Text="{Binding Model.Subtitle, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="0,5"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Title Fontsize" FontWeight="Bold"/>
-                <TextBox Name="txtSubtitleFontSize" Margin="80,0,0,0" Width="35" Height="22" Text="{Binding Model.SubtitleFontSize, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}" TextAlignment="Right"/>
+                <TextBox Name="txtSubtitleFontSize" Margin="80,0,0,0" Width="35" Height="22"
+                         Text="{Binding Model.SubtitleFontSize, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0}}"
+                         TextAlignment="Right"/>
+            </StackPanel>
+            <Label Content="Axes" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+            <CheckBox Name="ckbXVisibility" Content=":x-Axis visible " FlowDirection="RightToLeft" HorizontalAlignment="Left"
+                      IsChecked="{Binding Xaxis.IsAxisVisible, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Height="22" />
+            <CheckBox Name="ckbYVisibility" Content=":y-Axis visible " FlowDirection="RightToLeft" HorizontalAlignment="Left"
+                      IsChecked="{Binding Yaxis.IsAxisVisible, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" Height="21"/>
+            <Label Content="y-Axis minimum range:" FontWeight="Bold" />
+            <Slider Name="sldrYminRange" Value="{Binding Yaxis.MinimumRange, UpdateSourceTrigger=PropertyChanged}" Maximum="10" Minimum="0" />
+            <Label Content="Report" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+            <StackPanel Orientation="Horizontal" Height="26">
+                <TextBox Name="txtReportWidth" Width="50" Text="800" FontSize="14" TextAlignment="Center" />
+                <Label Content="X"/>
+                <TextBox x:Name="txtReportHeight" Width="50" Text="600" FontSize="14" TextAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Button Width="40" Margin="40,0,0,0" Content="PDF" FontWeight="Bold" BorderThickness="0" ToolTip="Export to PDF" BorderBrush="Black" Background="{x:Null}" Foreground="#FF020202" Click="btnReport_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

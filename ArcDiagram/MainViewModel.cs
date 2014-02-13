@@ -13,6 +13,8 @@ namespace ArcDiagram
     class MainViewModel : Observable
     {
         private PlotModel model;
+        private Axis xaxis;
+        private Axis yaxis;
 
         public MainViewModel()
         {
@@ -21,24 +23,6 @@ namespace ArcDiagram
             tmp.PlotAreaBorderColor = OxyColors.Transparent;
             tmp.IsLegendVisible = false;
 
-            //// Axes are created automatically if they are not defined
-            //var xaxis = new LinearAxis(AxisPosition.Bottom);
-            //xaxis.TickStyle = TickStyle.None;
-            //xaxis.IsAxisVisible = true;
-            //xaxis.MinimumRange = 1;
-
-            //var yaxis = new LinearAxis();
-            //yaxis.IsAxisVisible = false;
-            //yaxis.Position = AxisPosition.Left;
-            //yaxis.TickStyle = TickStyle.None;
-            //yaxis.MinimumRange = 1;
-            ////yaxis.IsPanEnabled = false;
-            //yaxis.AxislineColor = OxyColors.Transparent;           
-
-            //tmp.Axes.Add(xaxis);
-            //tmp.Axes.Add(yaxis);
-            
-            // Set the Model property, the INotifyPropertyChanged event will make the WPF Plot control update its content
             model = tmp;
         }
 
@@ -63,6 +47,9 @@ namespace ArcDiagram
             //yaxis.IsPanEnabled = false;
             yaxis.AxislineColor = OxyColors.Transparent;
 
+            this.Xaxis = xaxis;
+            this.Yaxis = yaxis;
+
             model.Axes.Add(xaxis);
             model.Axes.Add(yaxis);
         }
@@ -74,7 +61,7 @@ namespace ArcDiagram
             areaSeries.Title = title;
             areaSeries.Tag = outerR - innerR;
 
-            for (double i = 0; i <= Math.PI; i += 0.001)
+            for (double i = 0; i <= Math.PI; i += 0.01)
             {             
 
                 data.Add(new ArcData
@@ -115,6 +102,17 @@ namespace ArcDiagram
                     RaisePropertyChanged(() => Model);
                 }
             }
+        }
+
+        public Axis Xaxis { 
+            get { return this.xaxis; }
+            set { this.xaxis = value; }
+        }
+
+        public Axis Yaxis
+        {
+            get { return this.yaxis; }
+            set { this.yaxis = value; }
         }
 
     }

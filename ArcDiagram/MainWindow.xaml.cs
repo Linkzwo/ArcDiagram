@@ -198,15 +198,37 @@ namespace ArcDiagram
             sfd.DefaultExt = ".pdf";
             sfd.Filter = "Portable Document File (*.pdf)|*.pdf";
 
+            int width, height;
+            string strWidth = txtReportWidth.Text,
+                   strHeight= txtReportHeight.Text;
+
+            if(!Int32.TryParse(strWidth, out width)){
+                width = 800;
+            }
+            if (!Int32.TryParse(strHeight, out height))
+            {
+                height = 600;
+            }
+
             if (sfd.ShowDialog() == true)
             {
                 using (var stream = File.Create(sfd.FileName))
                 {
-                    OxyPlot.Pdf.PdfExporter.Export(this.mvm.Model, stream, 800, 600);
+                    OxyPlot.Pdf.PdfExporter.Export(this.mvm.Model, stream, width, height);
                 }
             }
         }
 
+        private void btnFromFile_Click(object sender, RoutedEventArgs e)
+        {
+            var ofd = new Microsoft.Win32.OpenFileDialog();
+
+            if (ofd.ShowDialog() == true && ofd.CheckFileExists)
+            {
+                string text = System.IO.File.ReadAllText(ofd.FileName);
+                this.txtInput.Text = text;
+            }            
+        }
     }
 
     class RepetitionArea
