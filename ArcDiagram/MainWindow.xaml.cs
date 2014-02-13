@@ -44,6 +44,7 @@ namespace ArcDiagram
         {
             mvm.Model.Series.Clear();
             string s = this.txtInput.Text;
+            mvm.setAxis(s);
             var lstDups = getDuplicates(s);
             List<RepetitionArea> repAreas = FindRepetitionAreas(s);
             Dictionary<string, List<int>> lstStringOcc = new Dictionary<string, List<int>>();
