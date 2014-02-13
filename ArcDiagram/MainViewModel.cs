@@ -21,11 +21,39 @@ namespace ArcDiagram
             tmp.PlotAreaBorderColor = OxyColors.Transparent;
             tmp.IsLegendVisible = false;
 
+            //// Axes are created automatically if they are not defined
+            //var xaxis = new LinearAxis(AxisPosition.Bottom);
+            //xaxis.TickStyle = TickStyle.None;
+            //xaxis.IsAxisVisible = true;
+            //xaxis.MinimumRange = 1;
+
+            //var yaxis = new LinearAxis();
+            //yaxis.IsAxisVisible = false;
+            //yaxis.Position = AxisPosition.Left;
+            //yaxis.TickStyle = TickStyle.None;
+            //yaxis.MinimumRange = 1;
+            ////yaxis.IsPanEnabled = false;
+            //yaxis.AxislineColor = OxyColors.Transparent;           
+
+            //tmp.Axes.Add(xaxis);
+            //tmp.Axes.Add(yaxis);
+            
+            // Set the Model property, the INotifyPropertyChanged event will make the WPF Plot control update its content
+            model = tmp;
+        }
+
+        public void setAxis(string s)
+        {
+            Console.WriteLine(s.Length);
+            string[] items = s.Select(c => c.ToString()).ToArray();
+            model.Axes.Clear();
             // Axes are created automatically if they are not defined
-            var xaxis = new LinearAxis(AxisPosition.Bottom);
+            var xaxis = new CategoryAxis("", items);
+            if (s.Length > 200) {xaxis = new CategoryAxis(); } //do not show content if it is too much
             xaxis.TickStyle = TickStyle.None;
-            xaxis.IsAxisVisible = false;
+            xaxis.IsAxisVisible = true;
             xaxis.MinimumRange = 1;
+            //xaxis.PositionAtZeroCrossing = true;
 
             var yaxis = new LinearAxis();
             yaxis.IsAxisVisible = false;
@@ -33,13 +61,10 @@ namespace ArcDiagram
             yaxis.TickStyle = TickStyle.None;
             yaxis.MinimumRange = 1;
             //yaxis.IsPanEnabled = false;
-            yaxis.AxislineColor = OxyColors.Transparent;           
+            yaxis.AxislineColor = OxyColors.Transparent;
 
-            tmp.Axes.Add(xaxis);
-            tmp.Axes.Add(yaxis);
-            
-            // Set the Model property, the INotifyPropertyChanged event will make the WPF Plot control update its content
-            Model = tmp;
+            model.Axes.Add(xaxis);
+            model.Axes.Add(yaxis);
         }
 
         public void drawArc(double center, double outerR, double innerR, string title)
